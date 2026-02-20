@@ -26,7 +26,7 @@ const Hero = () => {
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-4">
-            Aniruddh Arma
+            Aniruddha Dharma
           </h1>
           
           <p className="text-2xl md:text-3xl text-blue-600 font-semibold mb-6">
