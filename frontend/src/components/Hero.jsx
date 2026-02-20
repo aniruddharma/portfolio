@@ -20,8 +20,12 @@ const Hero = () => {
       <div className="container mx-auto px-6 py-20">
         <div className="max-w-4xl mx-auto text-center">
           <div className="mb-8">
-            <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center text-white text-5xl font-bold">
-              AD
+            <div className="w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-blue-600 shadow-xl">
+              <img 
+                src="https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/syuhafk4_Screenshot_20260220_130403_Drive.jpg" 
+                alt="Aniruddha Dharma"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
 
