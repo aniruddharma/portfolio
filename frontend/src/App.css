@@ -9,6 +9,7 @@
 /* Custom scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -22,4 +23,19 @@
 
 ::-webkit-scrollbar-thumb:hover {
     background: #1d4ed8;
+}
+
+/* Horizontal scroll for project screenshots */
+.scrollbar-thin::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scrollbar-thumb-blue-600::-webkit-scrollbar-thumb {
+    background: #2563eb;
+    border-radius: 4px;
+}
+
+.scrollbar-track-slate-200::-webkit-scrollbar-track {
+    background: #e2e8f0;
+    border-radius: 4px;
 }
