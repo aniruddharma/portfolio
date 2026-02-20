@@ -267,28 +267,33 @@ const Projects = () => {
                 <div>
                   <h4 className="font-semibold text-slate-900 mb-3 flex items-center">
                     <ImageIcon size={20} className="mr-2 text-blue-600" />
-                    Project Screenshots
+                    Project Screenshots ({selectedProject.screenshots.length})
                   </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {selectedProject.screenshots.map((screenshot, index) => (
-                      <div
-                        key={index}
-                        className="cursor-pointer group"
-                        onClick={() => setSelectedImage(screenshot)}
-                      >
-                        <div className="relative overflow-hidden rounded-lg border-2 border-slate-200 group-hover:border-blue-400 transition-all duration-300">
-                          <img
-                            src={screenshot.url}
-                            alt={screenshot.caption}
-                            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
-                            <ImageIcon className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" size={32} />
+                  <div className="relative">
+                    <div className="flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-slate-200">
+                      {selectedProject.screenshots.map((screenshot, index) => (
+                        <div
+                          key={index}
+                          className="flex-shrink-0 w-72 cursor-pointer group snap-start"
+                          onClick={() => setSelectedImage(screenshot)}
+                        >
+                          <div className="relative overflow-hidden rounded-lg border-2 border-slate-200 group-hover:border-blue-400 transition-all duration-300 shadow-md">
+                            <img
+                              src={screenshot.url}
+                              alt={screenshot.caption}
+                              className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                              <ImageIcon className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" size={32} />
+                            </div>
                           </div>
+                          <p className="text-sm text-slate-600 mt-2 font-medium">{screenshot.caption}</p>
                         </div>
-                        <p className="text-sm text-slate-600 mt-2">{screenshot.caption}</p>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+                    <div className="text-sm text-slate-500 mt-2 text-center">
+                      ← Scroll horizontally to view all screenshots →
+                    </div>
                   </div>
                 </div>
               )}
