@@ -55,25 +55,23 @@ const Projects = () => {
       technologies: ['RAG Architecture', 'NLP', 'Dynamic Widgets', 'Context-Aware AI', 'UI/UX'],
       screenshots: [
         {
-          url: 'https://images.unsplash.com/photo-1587560699334-cc4ff634909a?w=800&h=600&fit=crop',
-          caption: 'Chatbot Interface - RAG in Action'
+          url: 'https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/u4iph1aq_Screenshot_20260220_130830_Airtel.jpg',
+          caption: 'Help Home Page - Personalized Categories'
         },
         {
-          url: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop',
-          caption: 'Help Homepage - Personalized Buckets'
+          url: 'https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/qtn5advc_Screenshot_20260220_130846_Airtel.jpg',
+          caption: 'Help Page - Intuitive Buckets & Quick Actions'
         },
         {
-          url: 'https://images.unsplash.com/photo-1432888622747-4eb9a8f2c293?w=800&h=600&fit=crop',
-          caption: 'Contextual Help Widget'
+          url: 'https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/fnui8r7g_Screenshot_20260220_131318_Airtel.jpg',
+          caption: 'In-Chat Widgets - Plan Details Integration'
+        },
+        {
+          url: 'https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/b4kwub79_Screenshot_20260220_133720_Airtel.jpg',
+          caption: 'RAG-Powered Answers - Contextual Responses'
         }
       ],
-      audioFiles: [
-        {
-          name: 'User Feedback - Positive Experience',
-          url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
-          duration: '0:20'
-        }
-      ]
+      audioFiles: []
     },
     {
       id: 3,
