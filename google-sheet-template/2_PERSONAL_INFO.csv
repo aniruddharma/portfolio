@@ -1,0 +1,13 @@
+Field,Value,Where_It_Appears,Instructions
+Name,Aniruddha Dharma,Hero section / Header / Footer,Your full name as you want it displayed
+Title,Product Experience Lead,Hero section (below name),Your current job title or professional role
+Bio,"Driving digital transformation through AI-powered products at Airtel. Specialized in building scalable solutions that impact millions of users daily.",Hero section / About section,"Short 2-3 sentence introduction about yourself. Focus on your expertise and impact."
+Email,aniruddharma@gmail.com,Hero / Contact / Footer,Professional email address
+Phone,+91 7830933059,Hero / Contact / Footer,Phone number with country code
+LinkedIn_URL,https://www.linkedin.com/in/aniruddharma,Hero / Footer,Full LinkedIn profile URL (must start with https://)
+Profile_Photo_URL,https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/syuhafk4_Screenshot_20260220_130403_Drive.jpg,Hero section (circular photo),"Upload professional headshot to Google Drive → Get public link → Paste here. Recommended: Square image, min 400x400px"
+Location,India,Footer (optional),City and Country where you're based
+Resume_PDF_URL,,Download Resume button,"Upload your resume PDF to Google Drive → Get public link → Paste here. Leave blank if not ready yet."
+GitHub_URL,,Footer (optional),Full GitHub profile URL (if applicable)
+Twitter_URL,,Footer (optional),Full Twitter/X profile URL (if applicable)
+Portfolio_Tagline,AI-Powered Product Innovation,Optional: Meta description,"Short tagline for SEO/sharing (optional, 5-10 words)"

@@ -1,0 +1,29 @@
+ID,Category,Skill_Name,Proficiency,Display_Order,Status,Notes
+1,Product Management,Agile Methodologies,Expert,1,Active,Scrum and Kanban experience
+2,Product Management,JIRA,Expert,2,Active,Project tracking and management
+3,Product Management,Figma,Advanced,3,Active,UI/UX design and prototyping
+4,Product Management,Confluence,Advanced,4,Active,Documentation and collaboration
+5,Product Management,Product Strategy,Expert,5,Active,Vision and roadmap development
+6,Product Management,Roadmap Creation,Expert,6,Active,Strategic planning
+7,Product Management,Leading Cross-Functional Teams,Expert,7,Active,Team leadership and coordination
+8,Product Management,MVP Launch,Expert,8,Active,0-to-1 product development
+9,Product Management,Go-to-Market Strategy,Expert,9,Active,GTM planning and execution
+10,Product Management,Market Research,Advanced,10,Active,Competitive analysis
+11,Product Management,Competition Benchmarking,Advanced,11,Active,Market intelligence
+12,Product Management,A/B Testing,Expert,12,Active,Experimentation and optimization
+13,Product Management,User Research,Advanced,13,Active,User interviews and testing
+14,Analytics & Tools,Excel,Expert,1,Active,Advanced formulas and pivot tables
+15,Analytics & Tools,Alteryx,Advanced,2,Active,Data preparation and blending
+16,Analytics & Tools,SQL,Advanced,3,Active,Database queries and analysis
+17,Analytics & Tools,PowerPoint,Expert,4,Active,Executive presentations
+18,Analytics & Tools,Tableau,Advanced,5,Active,Data visualization
+19,Analytics & Tools,Data Analysis,Expert,6,Active,Statistical analysis
+20,Analytics & Tools,Business Intelligence,Advanced,7,Active,BI tools and dashboards
+21,Technical Expertise,LLM & GenAI,Advanced,1,Active,Large language model integration
+22,Technical Expertise,RAG Architecture,Advanced,2,Active,Retrieval-augmented generation
+23,Technical Expertise,Voice Bot Development,Advanced,3,Active,Conversational AI systems
+24,Technical Expertise,Chatbot Design,Advanced,4,Active,NLP and dialogue management
+25,Technical Expertise,API Platform,Advanced,5,Active,API design and integration
+26,Technical Expertise,UI/UX Design,Advanced,6,Active,User interface design
+27,Technical Expertise,Speech-to-Text,Intermediate,7,Active,Voice recognition systems
+28,Technical Expertise,AI Translation,Intermediate,8,Active,Multi-language AI systems

@@ -1,0 +1,9 @@
+File_Name,Type,Public_URL,Used_In,Upload_Date,File_Size,Notes,Status
+profile-photo.jpg,Image,https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/syuhafk4_Screenshot_20260220_130403_Drive.jpg,Personal Info - Profile Photo,2025-01-20,,Professional headshot,Active
+rag-help-home.jpg,Image,https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/u4iph1aq_Screenshot_20260220_130830_Airtel.jpg,RAG Project - Screenshot 1,2025-01-20,,Help home page personalization,Active
+rag-help-page.jpg,Image,https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/qtn5advc_Screenshot_20260220_130846_Airtel.jpg,RAG Project - Screenshot 2,2025-01-20,,Intuitive buckets and quick actions,Active
+rag-in-chat-widget.jpg,Image,https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/fnui8r7g_Screenshot_20260220_131318_Airtel.jpg,RAG Project - Screenshot 3,2025-01-20,,In-chat widgets with plan details,Active
+rag-answers.jpg,Image,https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/b4kwub79_Screenshot_20260220_133720_Airtel.jpg,RAG Project - Screenshot 4,2025-01-20,,RAG-powered contextual answers,Active
+voice-demo-hindi.mp3,Audio,https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3,LLM Voice Bot - Audio 1,2025-01-20,,Sample Hindi voice interaction (placeholder),Active
+voice-demo-english.mp3,Audio,https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3,LLM Voice Bot - Audio 2,2025-01-20,,Sample English voice interaction (placeholder),Active
+platform-demo.mp3,Audio,https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3,API Platform - Audio 1,2025-01-20,,Platform walkthrough demo (placeholder),Active
