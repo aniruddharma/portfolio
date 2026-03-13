@@ -3,11 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Button } from './ui/button';
-import { Play, Pause, Volume2, Image as ImageIcon, X } from 'lucide-react';
+import { Play, Pause, Volume2, Image as ImageIcon, ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [playingAudio, setPlayingAudio] = useState(null);
   const [audioRefs] = useState({});
 
@@ -150,6 +150,44 @@ const Projects = () => {
     }
   };
 
+  const openImageLightbox = (index) => {
+    setSelectedImageIndex(index);
+  };
+
+  const closeImageLightbox = () => {
+    setSelectedImageIndex(null);
+  };
+
+  const goToPreviousImage = () => {
+    if (selectedProject && selectedImageIndex > 0) {
+      setSelectedImageIndex(selectedImageIndex - 1);
+    }
+  };
+
+  const goToNextImage = () => {
+    if (selectedProject && selectedImageIndex < selectedProject.screenshots.length - 1) {
+      setSelectedImageIndex(selectedImageIndex + 1);
+    }
+  };
+
+  React.useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (selectedImageIndex !== null) {
+        if (e.key === 'ArrowLeft') {
+          goToPreviousImage();
+        } else if (e.key === 'ArrowRight') {
+          goToNextImage();
+        } else if (e.key === 'Escape') {
+          closeImageLightbox();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedImageIndex, selectedProject]);
+
   return (
     <section id="projects" className="py-20 bg-white">
       <div className="container mx-auto px-6">
@@ -167,8 +205,7 @@ const Projects = () => {
             {projects.map((project) => (
               <Card
                 key={project.id}
-                className="border-slate-200 hover:shadow-xl transition-all duration-300 cursor-pointer group"
-                onClick={() => setSelectedProject(project)}
+                className="border-slate-200 hover:shadow-xl transition-all duration-300 group overflow-hidden"
               >
                 <CardHeader>
                   <div className="flex items-start justify-between mb-2">
@@ -195,6 +232,38 @@ const Projects = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
+                  {/* Horizontal Scrollable Screenshots */}
+                  {project.screenshots.length > 0 && (
+                    <div className="mb-4">
+                      <div className="flex overflow-x-auto gap-3 pb-3 snap-x snap-mandatory hide-scrollbar">
+                        {project.screenshots.map((screenshot, index) => (
+                          <div
+                            key={index}
+                            className="flex-shrink-0 w-48 cursor-pointer group/img snap-start"
+                            onClick={() => {
+                              setSelectedProject(project);
+                              openImageLightbox(index);
+                            }}
+                          >
+                            <div className="relative overflow-hidden rounded-lg border-2 border-slate-200 group-hover/img:border-blue-400 transition-all duration-300 shadow-sm">
+                              <img
+                                src={screenshot.url}
+                                alt={screenshot.caption}
+                                className="w-full h-32 object-cover group-hover/img:scale-110 transition-transform duration-300"
+                              />
+                              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover/img:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                                <ImageIcon className="text-white opacity-0 group-hover/img:opacity-100 transition-opacity duration-300" size={24} />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-xs text-slate-500 mt-1 text-center">
+                        ← Scroll to view all images →
+                      </p>
+                    </div>
+                  )}
+
                   <p className="text-slate-600 mb-4 leading-relaxed">
                     {project.description}
                   </p>
@@ -202,7 +271,7 @@ const Projects = () => {
                     <p className="text-sm font-semibold text-slate-900 mb-2">Impact:</p>
                     <p className="text-sm text-blue-600 font-medium">{project.impact}</p>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mb-4">
                     {project.technologies.slice(0, 4).map((tech, index) => (
                       <Badge
                         key={index}
@@ -218,6 +287,13 @@ const Projects = () => {
                       </Badge>
                     )}
                   </div>
+                  <Button
+                    onClick={() => setSelectedProject(project)}
+                    variant="outline"
+                    className="w-full border-blue-600 text-blue-600 hover:bg-blue-50"
+                  >
+                    View Details
+                  </Button>
                 </CardContent>
               </Card>
             ))}
@@ -226,7 +302,7 @@ const Projects = () => {
       </div>
 
       {/* Project Detail Modal */}
-      {selectedProject && (
+      {selectedProject && selectedImageIndex === null && (
         <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
           <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
@@ -269,31 +345,26 @@ const Projects = () => {
                     <ImageIcon size={20} className="mr-2 text-blue-600" />
                     Project Screenshots ({selectedProject.screenshots.length})
                   </h4>
-                  <div className="relative">
-                    <div className="flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-slate-200">
-                      {selectedProject.screenshots.map((screenshot, index) => (
-                        <div
-                          key={index}
-                          className="flex-shrink-0 w-72 cursor-pointer group snap-start"
-                          onClick={() => setSelectedImage(screenshot)}
-                        >
-                          <div className="relative overflow-hidden rounded-lg border-2 border-slate-200 group-hover:border-blue-400 transition-all duration-300 shadow-md">
-                            <img
-                              src={screenshot.url}
-                              alt={screenshot.caption}
-                              className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
-                              <ImageIcon className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" size={32} />
-                            </div>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {selectedProject.screenshots.map((screenshot, index) => (
+                      <div
+                        key={index}
+                        className="cursor-pointer group/thumb"
+                        onClick={() => openImageLightbox(index)}
+                      >
+                        <div className="relative overflow-hidden rounded-lg border-2 border-slate-200 group-hover/thumb:border-blue-400 transition-all duration-300 shadow-md">
+                          <img
+                            src={screenshot.url}
+                            alt={screenshot.caption}
+                            className="w-full h-40 object-cover group-hover/thumb:scale-105 transition-transform duration-300"
+                          />
+                          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover/thumb:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                            <ImageIcon className="text-white opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300" size={32} />
                           </div>
-                          <p className="text-sm text-slate-600 mt-2 font-medium">{screenshot.caption}</p>
                         </div>
-                      ))}
-                    </div>
-                    <div className="text-sm text-slate-500 mt-2 text-center">
-                      ← Scroll horizontally to view all screenshots →
-                    </div>
+                        <p className="text-xs text-slate-600 mt-2">{screenshot.caption}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -338,26 +409,52 @@ const Projects = () => {
         </Dialog>
       )}
 
-      {/* Image Lightbox */}
-      {selectedImage && (
-        <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
-          <DialogContent className="max-w-6xl p-0 bg-black bg-opacity-95">
+      {/* Image Lightbox with Arrow Navigation */}
+      {selectedProject && selectedImageIndex !== null && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-95 flex items-center justify-center">
+          <button
+            onClick={closeImageLightbox}
+            className="absolute top-4 right-4 text-white hover:text-blue-400 transition-colors duration-200 z-50"
+          >
+            <X size={32} />
+          </button>
+
+          {/* Previous Arrow */}
+          {selectedImageIndex > 0 && (
             <button
-              onClick={() => setSelectedImage(null)}
-              className="absolute top-4 right-4 text-white hover:text-blue-400 transition-colors duration-200 z-50"
+              onClick={goToPreviousImage}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-blue-400 transition-colors duration-200 bg-black bg-opacity-50 hover:bg-opacity-75 rounded-full p-3"
             >
-              <X size={32} />
+              <ChevronLeft size={40} />
             </button>
-            <div className="p-6">
-              <img
-                src={selectedImage.url}
-                alt={selectedImage.caption}
-                className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
-              />
-              <p className="text-white text-center mt-4 text-lg">{selectedImage.caption}</p>
+          )}
+
+          {/* Next Arrow */}
+          {selectedImageIndex < selectedProject.screenshots.length - 1 && (
+            <button
+              onClick={goToNextImage}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-blue-400 transition-colors duration-200 bg-black bg-opacity-50 hover:bg-opacity-75 rounded-full p-3"
+            >
+              <ChevronRight size={40} />
+            </button>
+          )}
+
+          <div className="max-w-6xl mx-auto px-8">
+            <img
+              src={selectedProject.screenshots[selectedImageIndex].url}
+              alt={selectedProject.screenshots[selectedImageIndex].caption}
+              className="w-full h-auto max-h-[85vh] object-contain rounded-lg"
+            />
+            <div className="text-center mt-4">
+              <p className="text-white text-lg mb-2">
+                {selectedProject.screenshots[selectedImageIndex].caption}
+              </p>
+              <p className="text-slate-400">
+                {selectedImageIndex + 1} / {selectedProject.screenshots.length}
+              </p>
             </div>
-          </DialogContent>
-        </Dialog>
+          </div>
+        </div>
       )}
     </section>
   );
