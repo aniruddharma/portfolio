@@ -1,70 +1,134 @@
-# Getting Started with Create React App
+# Aniruddha Dharma - Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, dynamic portfolio website built with React and integrated with Google Sheets for easy content management.
 
-## Available Scripts
+## 🌟 Features
 
-In the project directory, you can run:
+- ✅ **Google Sheets Integration** - Edit content via spreadsheet
+- ✅ **Smart Caching** - 5-minute auto-refresh + manual refresh
+- ✅ **Shimmer Loading** - Beautiful loading states
+- ✅ **Video Support** - Embed YouTube/Vimeo videos in projects
+- ✅ **Audio Files** - Add demo recordings and walkthroughs
+- ✅ **Image Galleries** - Horizontal scrolling with lightbox
+- ✅ **Responsive Design** - Works on all devices
+- ✅ **Free Hosting** - Deployed on Vercel ($0/month)
+- ✅ **Auto-Deploy** - Push to GitHub → Auto-deploys to Vercel
 
-### `npm start`
+## 🚀 Quick Start
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Local Development
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+# Install dependencies
+cd frontend
+yarn install
 
-### `npm test`
+# Start development server
+yarn start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Visit `http://localhost:3000`
 
-### `npm run build`
+### Deploy to Vercel
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+See [VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md) for complete deployment guide.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Quick deploy:**
+1. Push this repo to GitHub
+2. Import to Vercel
+3. Deploy!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 📊 Content Management
 
-### `npm run eject`
+### Google Sheet Structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Your portfolio content is managed via Google Sheet:
+- **Sheet URL:** [View Sheet](https://docs.google.com/spreadsheets/d/1KIT7gKgiF2sIWRLZXFcaAD2x_Urv1XuyTiMy5D5C0vo/edit)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Tabs:**
+1. PERSONAL_INFO - Name, email, bio, profile photo
+2. PROJECTS - Portfolio projects with images/videos/audio
+3. EXPERIENCE - Work history
+4. SKILLS - Technical skills categorized
+5. EDUCATION - Educational background
+6. MEDIA_LIBRARY - Media file tracker (optional)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### How to Update Content
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **Edit Google Sheet** - Change text, add rows, update URLs
+2. **Wait 5 minutes** - Auto-refresh fetches new data
+3. **OR Click "Refresh Content"** - Manual instant refresh (footer button)
+4. **Done!** - No code deployment needed
 
-## Learn More
+## 🛠️ Tech Stack
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Frontend:**
+- React 19
+- Tailwind CSS
+- Shadcn UI Components
+- Lucide React Icons
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**Backend:**
+- Vercel Serverless Functions
+- Google Sheets API (public sheet)
 
-### Code Splitting
+**Hosting:**
+- Vercel (Free tier)
+- CDN-powered
+- Automatic HTTPS
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 📁 Project Structure
 
-### Analyzing the Bundle Size
+```
+frontend/
+├── api/
+│   └── portfolio-data.js       # Serverless function for Google Sheets
+├── public/
+├── src/
+│   ├── components/
+│   │   ├── Header.jsx
+│   │   ├── Hero.jsx
+│   │   ├── Projects.jsx
+│   │   ├── Experience.jsx
+│   │   ├── Skills.jsx
+│   │   ├── Education.jsx
+│   │   ├── Contact.jsx
+│   │   ├── Footer.jsx          # Includes refresh button
+│   │   ├── ShimmerLoading.jsx  # Loading states
+│   │   └── ui/                 # Shadcn components
+│   ├── context/
+│   │   └── PortfolioDataContext.jsx  # Data management
+│   ├── services/
+│   │   └── portfolioDataService.js   # API service
+│   ├── pages/
+│   │   └── Portfolio.jsx
+│   └── App.js
+├── vercel.json                 # Vercel configuration
+├── package.json
+└── README.md
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 💰 Cost
 
-### Making a Progressive Web App
+**Total: $0/month**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Vercel Hosting: Free
+- Serverless Functions: Free (100GB bandwidth)
+- Google Sheets: Free
+- SSL Certificate: Free (auto)
+- Custom Domain Support: Free (domain registration separate)
 
-### Advanced Configuration
+## 📄 License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+MIT License - feel free to use for your own portfolio!
 
-### Deployment
+## 👤 Author
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+**Aniruddha Dharma**
+- Product Experience Lead
+- IIT Roorkee + IIM Bangalore
+- [LinkedIn](https://www.linkedin.com/in/aniruddharma)
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Questions?** See [VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md) for detailed setup guide.
