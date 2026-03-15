@@ -5,13 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Button } from './ui/button';
 import { Play, Pause, Volume2, Image as ImageIcon, ChevronLeft, ChevronRight, X } from 'lucide-react';
 
-const Projects = () => {
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-  const [playingAudio, setPlayingAudio] = useState(null);
-  const [audioRefs] = useState({});
-
-  const projects = [
+const HARDCODED_PROJECTS = [
     {
       id: 1,
       title: 'LLM-Based Voice Bot',
@@ -121,7 +115,18 @@ const Projects = () => {
         }
       ]
     }
-  ];
+];
+
+const Projects = ({ data }) => {
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [playingAudio, setPlayingAudio] = useState(null);
+  const [audioRefs] = useState({});
+
+  // Use projects from Google Sheets if available, fallback to hardcoded
+  const projects = (data?.projects && data.projects.length > 0)
+    ? data.projects
+    : HARDCODED_PROJECTS;
 
   const handlePlayAudio = (audioUrl, projectId) => {
     // Pause all other audios
@@ -291,6 +296,7 @@ const Projects = () => {
                     onClick={() => setSelectedProject(project)}
                     variant="outline"
                     className="w-full border-blue-600 text-blue-600 hover:bg-blue-50"
+                    data-testid={`view-project-${project.id}-btn`}
                   >
                     View Details
                   </Button>

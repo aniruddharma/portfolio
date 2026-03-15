@@ -4,6 +4,16 @@ import { Download, Linkedin, Mail, Phone } from 'lucide-react';
 
 const Hero = ({ data }) => {
   const personalInfo = data?.personalInfo || {};
+
+  // Convert Google Drive URLs to thumbnail URLs for display in <img> tags
+  const getDisplayUrl = (url) => {
+    if (!url) return null;
+    const fileViewMatch = url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
+    if (fileViewMatch) return `https://drive.google.com/thumbnail?id=${fileViewMatch[1]}&sz=w400`;
+    const ucMatch = url.match(/drive\.google\.com\/uc\?.*?id=([^&]+)/);
+    if (ucMatch) return `https://drive.google.com/thumbnail?id=${ucMatch[1]}&sz=w400`;
+    return url;
+  };
   
   const scrollToContact = () => {
     const element = document.getElementById('contact');
@@ -39,7 +49,7 @@ const Hero = ({ data }) => {
           <div className="mb-8">
             <div className="w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-blue-600 shadow-xl">
               <img 
-                src={personalInfo.Profile_Photo_URL || 'https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/syuhafk4_Screenshot_20260220_130403_Drive.jpg'} 
+                src={getDisplayUrl(personalInfo.Profile_Photo_URL) || 'https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/syuhafk4_Screenshot_20260220_130403_Drive.jpg'} 
                 alt={personalInfo.Name || 'Aniruddha Dharma'}
                 className="w-full h-full object-cover"
               />
@@ -73,6 +83,7 @@ const Hero = ({ data }) => {
             <Button
               onClick={handleDownloadResume}
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 text-lg"
+              data-testid="download-resume-btn"
             >
               <Download size={20} className="mr-2" />
               Download Resume
@@ -81,6 +92,7 @@ const Hero = ({ data }) => {
               onClick={scrollToContact}
               variant="outline"
               className="border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-3 text-lg"
+              data-testid="get-in-touch-btn"
             >
               Get in Touch
             </Button>

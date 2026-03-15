@@ -5,77 +5,66 @@ let cache = {
   error: null
 };
 
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 const SHEET_ID = '1KIT7gKgiF2sIWRLZXFcaAD2x_Urv1XuyTiMy5D5C0vo';
-
-// Google Sheets API endpoint (public sheet, no auth needed for public data)
 const SHEETS_API_BASE = 'https://docs.google.com/spreadsheets/d';
 
 async function fetchSheetData(sheetName) {
-  const url = `${SHEETS_API_BASE}/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
-  
-  try {
-    const response = await fetch(url);
-    const text = await response.text();
-    
-    // Google Sheets returns JSONP, need to extract JSON
-    const jsonText = text.substring(47).slice(0, -2);
-    const data = JSON.parse(jsonText);
-    
-    return parseGoogleSheetsData(data);
-  } catch (error) {
-    console.error(`Error fetching ${sheetName}:`, error);
-    throw error;
-  }
+  const url = `${SHEETS_API_BASE}/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+  const response = await fetch(url);
+  const text = await response.text();
+
+  // Extract JSON from JSONP wrapper: /*O_o*/\ngoogle.visualization.Query.setResponse({...});
+  const start = text.indexOf('{');
+  const end = text.lastIndexOf('}');
+  if (start === -1 || end === -1) throw new Error(`Invalid gviz response for: ${sheetName}`);
+  const data = JSON.parse(text.substring(start, end + 1));
+  return parseGoogleSheetsData(data);
 }
 
 function parseGoogleSheetsData(data) {
-  const rows = data.table.rows;
-  const cols = data.table.cols;
-  
-  // Get headers from first row
-  const headers = rows[0].c.map((cell, i) => cell ? cell.v : `col_${i}`);
-  
-  // Parse data rows
-  const parsedData = [];
-  for (let i = 1; i < rows.length; i++) {
-    const row = {};
-    rows[i].c.forEach((cell, j) => {
-      row[headers[j]] = cell ? cell.v : null;
-    });
-    parsedData.push(row);
-  }
-  
-  return parsedData;
+  const table = data.table;
+  if (!table || !table.rows || table.rows.length === 0) return [];
+
+  // Use cols[].label for headers (gviz puts header row here, not in rows[])
+  const headers = table.cols.map(col => col.label || col.id);
+
+  return table.rows
+    .map(row => {
+      const obj = {};
+      if (row.c) {
+        row.c.forEach((cell, j) => {
+          if (headers[j]) {
+            obj[headers[j]] = cell ? (cell.f != null ? cell.f : cell.v) : null;
+          }
+        });
+      }
+      return obj;
+    })
+    .filter(row => Object.values(row).some(v => v !== null));
 }
 
 async function getAllPortfolioData() {
-  try {
-    const [personalInfo, projects, experience, skills, education] = await Promise.all([
-      fetchSheetData('PERSONAL_INFO'),
-      fetchSheetData('PROJECTS'),
-      fetchSheetData('EXPERIENCE'),
-      fetchSheetData('SKILLS'),
-      fetchSheetData('EDUCATION')
-    ]);
+  const [personalInfo, projects, experience, skills, education] = await Promise.all([
+    fetchSheetData('PERSONAL_INFO'),
+    fetchSheetData('PROJECTS'),
+    fetchSheetData('EXPERIENCE'),
+    fetchSheetData('SKILLS'),
+    fetchSheetData('EDUCATION')
+  ]);
 
-    return {
-      personalInfo: personalInfo[0] || {}, // First row only
-      projects: projects.filter(p => p.Status === 'Active'),
-      experience: experience.filter(e => e.Status === 'Active').sort((a, b) => a.Display_Order - b.Display_Order),
-      skills: skills.filter(s => s.Status === 'Active'),
-      education: education.filter(e => e.Status === 'Active').sort((a, b) => a.Display_Order - b.Display_Order)
-    };
-  } catch (error) {
-    console.error('Error fetching portfolio data:', error);
-    throw error;
-  }
+  return {
+    personalInfo: personalInfo[0] || {},
+    projects: projects.filter(p => p.Status === 'Active'),
+    experience: experience.filter(e => e.Status === 'Active').sort((a, b) => a.Display_Order - b.Display_Order),
+    skills: skills.filter(s => s.Status === 'Active'),
+    education: education.filter(e => e.Status === 'Active').sort((a, b) => a.Display_Order - b.Display_Order)
+  };
 }
 
 export default async function handler(req, res) {
-  // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') {
@@ -84,8 +73,6 @@ export default async function handler(req, res) {
 
   const forceRefresh = req.query.refresh === 'true';
   const now = Date.now();
-
-  // Check if we have valid cached data
   const cacheIsValid = cache.data && cache.timestamp && (now - cache.timestamp < CACHE_DURATION);
 
   if (cacheIsValid && !forceRefresh) {
@@ -98,17 +85,9 @@ export default async function handler(req, res) {
     });
   }
 
-  // Fetch fresh data
   try {
     const data = await getAllPortfolioData();
-    
-    // Update cache
-    cache = {
-      data,
-      timestamp: now,
-      error: null
-    };
-
+    cache = { data, timestamp: now, error: null };
     return res.status(200).json({
       success: true,
       data,
@@ -117,7 +96,6 @@ export default async function handler(req, res) {
       nextUpdate: now + CACHE_DURATION
     });
   } catch (error) {
-    // If fetch fails but we have old cache, return it
     if (cache.data) {
       return res.status(200).json({
         success: true,
@@ -128,8 +106,6 @@ export default async function handler(req, res) {
         nextUpdate: now + CACHE_DURATION
       });
     }
-
-    // No cache available, return error
     return res.status(500).json({
       success: false,
       error: error.message || 'Failed to fetch portfolio data'
