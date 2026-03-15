@@ -39,36 +39,42 @@ const Header = () => {
             <button
               onClick={() => scrollToSection('about')}
               className="text-slate-700 hover:text-blue-600 transition-colors duration-200"
+              data-testid="nav-about"
             >
               About
             </button>
             <button
               onClick={() => scrollToSection('experience')}
               className="text-slate-700 hover:text-blue-600 transition-colors duration-200"
+              data-testid="nav-experience"
             >
               Experience
             </button>
             <button
               onClick={() => scrollToSection('projects')}
               className="text-slate-700 hover:text-blue-600 transition-colors duration-200"
+              data-testid="nav-projects"
             >
               Projects
             </button>
             <button
               onClick={() => scrollToSection('skills')}
               className="text-slate-700 hover:text-blue-600 transition-colors duration-200"
+              data-testid="nav-skills"
             >
               Skills
             </button>
             <button
               onClick={() => scrollToSection('education')}
               className="text-slate-700 hover:text-blue-600 transition-colors duration-200"
+              data-testid="nav-education"
             >
               Education
             </button>
             <Button
               onClick={() => scrollToSection('contact')}
               className="bg-blue-600 hover:bg-blue-700 text-white"
+              data-testid="nav-contact"
             >
               Contact
             </Button>

@@ -1,9 +1,11 @@
 import React from 'react';
 import { Button } from './ui/button';
 import { Download, Linkedin, Mail, Phone } from 'lucide-react';
+import { useToast } from '../hooks/use-toast';
 
 const Hero = ({ data }) => {
   const personalInfo = data?.personalInfo || {};
+  const { toast } = useToast();
 
   // Convert Google Drive URLs to thumbnail URLs for display in <img> tags
   const getDisplayUrl = (url) => {
@@ -38,7 +40,10 @@ const Hero = ({ data }) => {
       // For direct links, open in new tab
       window.open(resumeUrl, '_blank');
     } else {
-      alert('Resume not available. Please add Resume_PDF_URL to your Google Sheet.');
+      toast({
+        title: 'Resume Coming Soon',
+        description: 'Please connect via LinkedIn or email in the meantime.',
+      });
     }
   };
 
