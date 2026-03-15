@@ -1,8 +1,11 @@
 import React from 'react';
-import { Linkedin, Mail, Phone } from 'lucide-react';
+import { Linkedin, Mail, Phone, RefreshCw } from 'lucide-react';
+import { usePortfolioData } from '../context/PortfolioDataContext';
+import { Button } from './ui/button';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { refreshData, refreshing, meta } = usePortfolioData();
 
   return (
     <footer className="bg-slate-900 text-white py-12">
@@ -82,13 +85,34 @@ const Footer = () => {
             </div>
           </div>
           
-          <div className="border-t border-slate-800 pt-8 text-center">
-            <p className="text-slate-400">
-              © {currentYear} Aniruddha Dharma. All rights reserved.
-            </p>
-            <p className="text-xs text-slate-500 mt-2">
-              Deploy to Vercel for live Google Sheets integration
-            </p>
+          <div className="border-t border-slate-800 pt-8">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <p className="text-slate-400 text-center md:text-left">
+                © {currentYear} Aniruddha Dharma. All rights reserved.
+              </p>
+              
+              {/* Refresh Button and Cache Status */}
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                {meta && (
+                  <div className="text-xs text-slate-500 text-center sm:text-right">
+                    <div>Last updated: {new Date(meta.timestamp).toLocaleTimeString()}</div>
+                    {meta.nextUpdate && (
+                      <div className="text-slate-600">Next refresh: {new Date(meta.nextUpdate).toLocaleTimeString()}</div>
+                    )}
+                  </div>
+                )}
+                <Button
+                  onClick={refreshData}
+                  disabled={refreshing}
+                  variant="outline"
+                  size="sm"
+                  className="border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white"
+                >
+                  <RefreshCw size={16} className={`mr-2 ${refreshing ? 'animate-spin' : ''}`} />
+                  {refreshing ? 'Refreshing...' : 'Refresh Content'}
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

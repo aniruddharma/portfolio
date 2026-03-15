@@ -2,7 +2,9 @@ import React from 'react';
 import { Button } from './ui/button';
 import { Download, Linkedin, Mail, Phone } from 'lucide-react';
 
-const Hero = () => {
+const Hero = ({ data }) => {
+  const personalInfo = data?.personalInfo || {};
+  
   const scrollToContact = () => {
     const element = document.getElementById('contact');
     if (element) {
@@ -11,12 +13,23 @@ const Hero = () => {
   };
 
   const handleDownloadResume = () => {
-    // Resume URL from Google Sheet - update this if you change it in the sheet
-    const resumeUrl = 'https://drive.google.com/uc?export=download&id=YOUR_DRIVE_FILE_ID';
+    const resumeUrl = personalInfo.Resume_PDF_URL;
     
-    // For now, open in new tab (Google Drive will handle download)
-    // Alternative: If you have a direct PDF link, it will download directly
-    window.open(resumeUrl, '_blank');
+    if (resumeUrl) {
+      // If URL is a Google Drive link, convert to download link
+      if (resumeUrl.includes('drive.google.com')) {
+        const fileIdMatch = resumeUrl.match(/\/d\/([^\/]+)/);
+        if (fileIdMatch) {
+          const fileId = fileIdMatch[1];
+          window.open(`https://drive.google.com/uc?export=download&id=${fileId}`, '_blank');
+          return;
+        }
+      }
+      // For direct links, open in new tab
+      window.open(resumeUrl, '_blank');
+    } else {
+      alert('Resume not available. Please add Resume_PDF_URL to your Google Sheet.');
+    }
   };
 
   return (
@@ -26,34 +39,33 @@ const Hero = () => {
           <div className="mb-8">
             <div className="w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-blue-600 shadow-xl">
               <img 
-                src="https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/syuhafk4_Screenshot_20260220_130403_Drive.jpg" 
-                alt="Aniruddha Dharma"
+                src={personalInfo.Profile_Photo_URL || 'https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/syuhafk4_Screenshot_20260220_130403_Drive.jpg'} 
+                alt={personalInfo.Name || 'Aniruddha Dharma'}
                 className="w-full h-full object-cover"
               />
             </div>
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-4">
-            Aniruddha Dharma
+            {personalInfo.Name || 'Aniruddha Dharma'}
           </h1>
           
           <p className="text-2xl md:text-3xl text-blue-600 font-semibold mb-6">
-            Product Experience Lead
+            {personalInfo.Title || 'Product Experience Lead'}
           </p>
 
           <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Driving digital transformation through AI-powered products at Airtel. 
-            Specialized in building scalable solutions that impact millions of users daily.
+            {personalInfo.Bio || 'Driving digital transformation through AI-powered products at Airtel. Specialized in building scalable solutions that impact millions of users daily.'}
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
-            <a href="mailto:aniruddharma@gmail.com" className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors duration-200">
+            <a href={`mailto:${personalInfo.Email || 'aniruddharma@gmail.com'}`} className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors duration-200">
               <Mail size={20} />
-              <span>aniruddharma@gmail.com</span>
+              <span>{personalInfo.Email || 'aniruddharma@gmail.com'}</span>
             </a>
-            <a href="tel:+917830933059" className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors duration-200">
+            <a href={`tel:${personalInfo.Phone || '+917830933059'}`} className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors duration-200">
               <Phone size={20} />
-              <span>+91 7830933059</span>
+              <span>{personalInfo.Phone || '+91 7830933059'}</span>
             </a>
           </div>
 
@@ -73,7 +85,7 @@ const Hero = () => {
               Get in Touch
             </Button>
             <a
-              href="https://www.linkedin.com/in/aniruddharma"
+              href={personalInfo.LinkedIn_URL || 'https://www.linkedin.com/in/aniruddharma'}
               target="_blank"
               rel="noopener noreferrer"
             >
