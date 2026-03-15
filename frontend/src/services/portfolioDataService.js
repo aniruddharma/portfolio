@@ -12,7 +12,7 @@ const FALLBACK_DATA = {
     Phone: '+91 7830933059',
     LinkedIn_URL: 'https://www.linkedin.com/in/aniruddharma',
     Profile_Photo_URL: 'https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/syuhafk4_Screenshot_20260220_130403_Drive.jpg',
-    Resume_PDF_URL: ''
+    Resume_PDF_URL: 'https://drive.google.com/file/d/1OSr5tPeg5EoB095AD1Fte-q5Dz1xeUVJ/preview'
   },
   projects: [
     {
@@ -151,8 +151,20 @@ class PortfolioDataService {
         fetchSheetTab('EDUCATION')
       ]);
 
+      // PERSONAL_INFO is a vertical key-value table (Column A = Field, Column B = Value)
+      // e.g. Row: Name | Aniruddha Dharma
+      // Parse it into a flat object { Name: 'Aniruddha Dharma', Title: '...', ... }
+      const personalInfo = {};
+      personalInfoRows.forEach(row => {
+        const key = row['A'];    // Field name
+        const value = row['B'];  // Field value
+        if (key && key !== 'Field' && key.trim() !== '') {
+          personalInfo[key.trim()] = value;
+        }
+      });
+
       const data = {
-        personalInfo: personalInfoRows[0] || {},
+        personalInfo,
         projects: projects.filter(p => p.Status === 'Active'),
         experience: experience.filter(e => e.Status === 'Active'),
         skills: skills.filter(s => s.Status === 'Active'),
