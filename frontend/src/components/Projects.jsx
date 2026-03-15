@@ -255,6 +255,7 @@ const Projects = ({ data }) => {
                                 src={screenshot.url}
                                 alt={screenshot.caption}
                                 className="w-full h-32 object-cover group-hover/img:scale-110 transition-transform duration-300"
+                                onError={(e) => { e.target.style.display='none'; e.target.parentNode.classList.add('bg-slate-100','flex','items-center','justify-center'); }}
                               />
                               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover/img:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                                 <ImageIcon className="text-white opacity-0 group-hover/img:opacity-100 transition-opacity duration-300" size={24} />
@@ -363,6 +364,7 @@ const Projects = ({ data }) => {
                             src={screenshot.url}
                             alt={screenshot.caption}
                             className="w-full h-40 object-cover group-hover/thumb:scale-105 transition-transform duration-300"
+                            onError={(e) => { e.target.style.display='none'; e.target.parentNode.classList.add('bg-slate-100','flex','items-center','justify-center','h-40'); }}
                           />
                           <div className="absolute inset-0 bg-black bg-opacity-0 group-hover/thumb:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
                             <ImageIcon className="text-white opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300" size={32} />
@@ -450,6 +452,7 @@ const Projects = ({ data }) => {
               src={selectedProject.screenshots[selectedImageIndex].url}
               alt={selectedProject.screenshots[selectedImageIndex].caption}
               className="w-full h-auto max-h-[85vh] object-contain rounded-lg"
+              onError={(e) => { e.target.src='https://placehold.co/800x600?text=Image+Not+Available'; }}
             />
             <div className="text-center mt-4">
               <p className="text-white text-lg mb-2">
