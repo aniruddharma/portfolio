@@ -108,8 +108,9 @@ async function fetchSheetTab(sheetName) {
 function parseGvizData(gvizData) {
   const table = gvizData.table;
   if (!table || !table.rows || table.rows.length === 0) return [];
-  // Column labels come from cols[].label (gviz puts header row here, not in rows[])
-  const headers = table.cols.map(col => col.label || col.id);
+  // Normalize header names: replace spaces with underscores so
+  // "Resume PDF URL" → "Resume_PDF_URL", "LinkedIn URL" → "LinkedIn_URL", etc.
+  const headers = table.cols.map(col => (col.label || col.id).replace(/\s+/g, '_').trim());
   return table.rows
     .map(row => {
       const obj = {};

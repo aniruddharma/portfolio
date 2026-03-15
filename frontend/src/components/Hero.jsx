@@ -25,20 +25,25 @@ const Hero = ({ data }) => {
   };
 
   const handleDownloadResume = () => {
-    const resumeUrl = personalInfo.Resume_PDF_URL;
-    
+    // Try multiple key formats in case sheet column has spaces vs underscores
+    const resumeUrl = personalInfo.Resume_PDF_URL
+      || personalInfo['Resume_PDF_URL']
+      || personalInfo.Resume_URL;
+
     if (resumeUrl) {
-      // If URL is a Google Drive link, convert to download link
+      let href = resumeUrl;
       if (resumeUrl.includes('drive.google.com')) {
-        const fileIdMatch = resumeUrl.match(/\/d\/([^\/]+)/);
-        if (fileIdMatch) {
-          const fileId = fileIdMatch[1];
-          window.open(`https://drive.google.com/uc?export=download&id=${fileId}`, '_blank');
-          return;
-        }
+        const match = resumeUrl.match(/\/d\/([^\/\?]+)/);
+        if (match) href = `https://drive.google.com/uc?export=download&id=${match[1]}`;
       }
-      // For direct links, open in new tab
-      window.open(resumeUrl, '_blank');
+      // Anchor element approach avoids popup-blocker issues
+      const a = document.createElement('a');
+      a.href = href;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     } else {
       toast({
         title: 'Resume Coming Soon',

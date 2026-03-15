@@ -5,9 +5,18 @@ import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Mail, Phone, Linkedin, Send } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
+import { usePortfolioData } from '../context/PortfolioDataContext';
 
 const Contact = () => {
   const { toast } = useToast();
+  const { data } = usePortfolioData();
+  const personalInfo = data?.personalInfo || {};
+
+  const email = personalInfo.Email || 'aniruddharma@gmail.com';
+  const phone = personalInfo.Phone || '+91 7830933059';
+  const linkedIn = personalInfo.LinkedIn_URL || 'https://www.linkedin.com/in/aniruddharma';
+  const linkedInDisplay = linkedIn.replace('https://www.', '').replace('https://', '');
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -29,8 +38,8 @@ const Contact = () => {
     const form = e.target;
     const formData = new FormData(form);
     
-    // Send to FormSubmit.co (replace with your email)
-    fetch('https://formsubmit.co/aniruddharma@gmail.com', {
+    // Send to FormSubmit.co using the email from Google Sheet
+    fetch(`https://formsubmit.co/${email}`, {
       method: 'POST',
       body: formData,
       headers: {
@@ -66,20 +75,20 @@ const Contact = () => {
     {
       icon: <Mail size={24} />,
       title: 'Email',
-      value: 'aniruddharma@gmail.com',
-      link: 'mailto:aniruddharma@gmail.com'
+      value: email,
+      link: `mailto:${email}`
     },
     {
       icon: <Phone size={24} />,
       title: 'Phone',
-      value: '+91 7830933059',
-      link: 'tel:+917830933059'
+      value: phone,
+      link: `tel:${phone.replace(/\s/g, '')}`
     },
     {
       icon: <Linkedin size={24} />,
       title: 'LinkedIn',
-      value: 'linkedin.com/in/aniruddharma',
-      link: 'https://www.linkedin.com/in/aniruddharma'
+      value: linkedInDisplay,
+      link: linkedIn
     }
   ];
 

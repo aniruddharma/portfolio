@@ -1,8 +1,13 @@
 import React from 'react';
 import { Award, Briefcase, GraduationCap, TrendingUp } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
+import { usePortfolioData } from '../context/PortfolioDataContext';
 
 const About = () => {
+  const { data } = usePortfolioData();
+  const personalInfo = data?.personalInfo || {};
+  const bio = personalInfo.Bio || null;
+
   const highlights = [
     {
       icon: <GraduationCap size={32} />,
@@ -36,16 +41,24 @@ const About = () => {
           <div className="w-20 h-1 bg-blue-600 mx-auto mb-12"></div>
 
           <div className="mb-12 text-center max-w-3xl mx-auto">
-            <p className="text-lg text-slate-600 leading-relaxed mb-4">
-              Product Experience Lead at Airtel with a proven track record of building and scaling 
-              AI-powered digital products that serve millions of users daily. My journey combines 
-              technical excellence from IIT Roorkee with strategic business acumen from IIM Bangalore.
-            </p>
-            <p className="text-lg text-slate-600 leading-relaxed">
-              I specialize in launching innovative products from 0 to 1, leveraging cutting-edge 
-              technologies like LLMs, RAG architecture, and GenAI to solve complex customer problems 
-              while driving significant business impact.
-            </p>
+            {bio ? (
+              <p className="text-lg text-slate-600 leading-relaxed">
+                {bio}
+              </p>
+            ) : (
+              <>
+                <p className="text-lg text-slate-600 leading-relaxed mb-4">
+                  Product Experience Lead at Airtel with a proven track record of building and scaling
+                  AI-powered digital products that serve millions of users daily. My journey combines
+                  technical excellence from IIT Roorkee with strategic business acumen from IIM Bangalore.
+                </p>
+                <p className="text-lg text-slate-600 leading-relaxed">
+                  I specialize in launching innovative products from 0 to 1, leveraging cutting-edge
+                  technologies like LLMs, RAG architecture, and GenAI to solve complex customer problems
+                  while driving significant business impact.
+                </p>
+              </>
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
