@@ -24,17 +24,41 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Mock submission for frontend-only version
-    console.log('Form submitted:', formData);
-    toast({
-      title: 'Message Sent!',
-      description: 'Thank you for reaching out. I will get back to you soon.',
-    });
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
+    
+    // Using FormSubmit.co - free form submission service
+    const form = e.target;
+    const formData = new FormData(form);
+    
+    // Send to FormSubmit.co (replace with your email)
+    fetch('https://formsubmit.co/aniruddharma@gmail.com', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        toast({
+          title: 'Message Sent!',
+          description: 'Thank you for reaching out. I will get back to you soon.',
+        });
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      } else {
+        throw new Error('Failed to send message');
+      }
+    })
+    .catch(error => {
+      toast({
+        title: 'Error',
+        description: 'Failed to send message. Please email me directly at aniruddharma@gmail.com',
+        variant: 'destructive',
+      });
     });
   };
 

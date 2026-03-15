@@ -11,8 +11,12 @@ const Hero = () => {
   };
 
   const handleDownloadResume = () => {
-    // Placeholder for resume download
-    alert('Resume download functionality - Connect to backend');
+    // Resume URL from Google Sheet - update this if you change it in the sheet
+    const resumeUrl = 'https://drive.google.com/uc?export=download&id=YOUR_DRIVE_FILE_ID';
+    
+    // For now, open in new tab (Google Drive will handle download)
+    // Alternative: If you have a direct PDF link, it will download directly
+    window.open(resumeUrl, '_blank');
   };
 
   return (
