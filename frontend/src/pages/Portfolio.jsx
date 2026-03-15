@@ -1,5 +1,5 @@
-import React from 'react';
-import { Download } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronUp } from 'lucide-react';
 import { usePortfolioData } from '../context/PortfolioDataContext';
 import { FullPageShimmer } from '../components/ShimmerLoading';
 import Header from '../components/Header';
@@ -12,33 +12,26 @@ import Education from '../components/Education';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 
-const FloatingResumeButton = ({ resumeUrl }) => {
-  if (!resumeUrl) return null;
+// Scroll-to-top button — appears after scrolling 400px, works on mobile + desktop
+const ScrollToTop = () => {
+  const [visible, setVisible] = useState(false);
 
-  const handleClick = () => {
-    let href = resumeUrl;
-    if (resumeUrl.includes('drive.google.com')) {
-      const match = resumeUrl.match(/\/d\/([^\/\?]+)/);
-      if (match) href = `https://drive.google.com/uc?export=download&id=${match[1]}`;
-    }
-    const a = document.createElement('a');
-    a.href = href;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  if (!visible) return null;
 
   return (
     <button
-      onClick={handleClick}
-      className="fixed bottom-8 right-8 z-50 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-full shadow-2xl transition-all duration-200 hover:scale-105 hover:shadow-blue-300/50"
-      data-testid="floating-resume-btn"
-      title="Download Resume"
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      className="fixed bottom-8 right-8 z-40 w-12 h-12 bg-slate-800 hover:bg-blue-600 text-white rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 opacity-90 hover:opacity-100"
+      data-testid="scroll-to-top-btn"
+      aria-label="Scroll to top"
     >
-      <Download size={18} />
-      <span className="hidden sm:inline">Download Resume</span>
+      <ChevronUp size={22} />
     </button>
   );
 };
@@ -66,8 +59,6 @@ const Portfolio = () => {
     );
   }
 
-  const resumeUrl = data?.personalInfo?.Resume_PDF_URL || '';
-
   return (
     <div className="portfolio-container">
       <Header />
@@ -79,7 +70,7 @@ const Portfolio = () => {
       <Education data={data} />
       <Contact />
       <Footer />
-      <FloatingResumeButton resumeUrl={resumeUrl} />
+      <ScrollToTop />
     </div>
   );
 };

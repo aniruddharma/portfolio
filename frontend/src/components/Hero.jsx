@@ -56,8 +56,8 @@ const Hero = ({ data }) => {
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 pt-20">
       <div className="container mx-auto px-6 py-20">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="mb-8">
-            <div className="w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-blue-600 shadow-xl">
+          <div className="mb-6">
+            <div className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 mx-auto mb-5 rounded-full overflow-hidden border-4 border-blue-600 shadow-xl">
               <img 
                 src={getDisplayUrl(personalInfo.Profile_Photo_URL) || 'https://customer-assets.emergentagent.com/job_work-profile-11/artifacts/syuhafk4_Screenshot_20260220_130403_Drive.jpg'} 
                 alt={personalInfo.Name || 'Aniruddha Dharma'}
@@ -66,42 +66,43 @@ const Hero = ({ data }) => {
             </div>
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-3">
             {personalInfo.Name || 'Aniruddha Dharma'}
           </h1>
           
-          <p className="text-2xl md:text-3xl text-blue-600 font-semibold mb-6">
+          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-blue-600 font-semibold mb-5">
             {personalInfo.Title || 'Product Experience Lead'}
           </p>
 
-          <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-slate-600 mb-7 max-w-2xl mx-auto leading-relaxed px-2">
             {personalInfo.Bio || 'Driving digital transformation through AI-powered products at Airtel. Specialized in building scalable solutions that impact millions of users daily.'}
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
-            <a href={`mailto:${personalInfo.Email || 'aniruddharma@gmail.com'}`} className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors duration-200">
-              <Mail size={20} />
-              <span>{personalInfo.Email || 'aniruddharma@gmail.com'}</span>
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-7">
+            <a href={`mailto:${personalInfo.Email || 'aniruddharma@gmail.com'}`} className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors duration-200 text-sm sm:text-base">
+              <Mail size={18} />
+              <span className="hidden sm:inline">{personalInfo.Email || 'aniruddharma@gmail.com'}</span>
+              <span className="sm:hidden">Email</span>
             </a>
-            <a href={`tel:${personalInfo.Phone || '+917830933059'}`} className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors duration-200">
-              <Phone size={20} />
+            <a href={`tel:${personalInfo.Phone || '+917830933059'}`} className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors duration-200 text-sm sm:text-base">
+              <Phone size={18} />
               <span>{personalInfo.Phone || '+91 7830933059'}</span>
             </a>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <Button
               onClick={handleDownloadResume}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 text-lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 text-sm sm:text-base"
               data-testid="download-resume-btn"
             >
-              <Download size={20} className="mr-2" />
+              <Download size={18} className="mr-2" />
               Download Resume
             </Button>
             <Button
               onClick={scrollToContact}
               variant="outline"
-              className="border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-3 text-lg"
+              className="border-blue-600 text-blue-600 hover:bg-blue-50 px-5 py-2.5 text-sm sm:text-base"
               data-testid="get-in-touch-btn"
             >
               Get in Touch
@@ -113,9 +114,9 @@ const Hero = ({ data }) => {
             >
               <Button
                 variant="outline"
-                className="border-slate-300 text-slate-700 hover:bg-slate-50 px-6 py-3 text-lg"
+                className="border-slate-300 text-slate-700 hover:bg-slate-50 px-5 py-2.5 text-sm sm:text-base"
               >
-                <Linkedin size={20} className="mr-2" />
+                <Linkedin size={18} className="mr-2" />
                 LinkedIn
               </Button>
             </a>
