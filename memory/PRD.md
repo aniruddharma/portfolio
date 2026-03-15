@@ -16,29 +16,31 @@ Build a personal portfolio website for Aniruddha Dharma to showcase work experie
 4. Google Sheets as CMS — user can update content without coding
 5. Vercel hosting (user's own account) deployed from GitHub
 6. Vercel Analytics + Speed Insights for visitor tracking
-7. Contact form sending submissions to aniruddharma@gmail.com
+7. Contact form sending submissions to email from Google Sheet
 8. Working "Download Resume" button pulling link from Google Sheet
 
 ## Architecture
 ```
 /app/frontend/           # Vercel project root
 ├── api/
-│   └── portfolio-data.js  # Serverless function (unused now, kept for reference)
+│   └── portfolio-data.js  # Serverless function (kept for reference)
 ├── src/
-│   ├── components/      # All UI components
-│   │   ├── Hero.jsx     # Uses Google Sheets personalInfo
-│   │   ├── Projects.jsx # Uses Google Sheets projects data
-│   │   ├── Experience.jsx  # Hardcoded rich data
-│   │   ├── Skills.jsx      # Hardcoded
-│   │   ├── Education.jsx   # Hardcoded
-│   │   ├── About.jsx       # Hardcoded
-│   │   ├── Contact.jsx     # FormSubmit.co integration
-│   │   └── Header.jsx      # Navigation
+│   ├── components/
+│   │   ├── Hero.jsx        # Dynamic: personalInfo (Name, Title, Bio, Photo, Resume)
+│   │   ├── About.jsx       # Dynamic: Bio from personalInfo; highlight cards hardcoded
+│   │   ├── Experience.jsx  # Dynamic from Google Sheets EXPERIENCE tab
+│   │   ├── Skills.jsx      # Dynamic from Google Sheets SKILLS tab
+│   │   ├── Education.jsx   # Partially dynamic (data prop passed)
+│   │   ├── Projects.jsx    # Dynamic from Google Sheets PROJECTS tab
+│   │   ├── Contact.jsx     # Dynamic: email/phone/LinkedIn from personalInfo
+│   │   ├── Footer.jsx      # Dynamic: personalInfo + social share bar
+│   │   └── Header.jsx      # Static navigation
 │   ├── context/
 │   │   └── PortfolioDataContext.jsx  # Provides sheet data to app
 │   ├── services/
-│   │   └── portfolioDataService.js  # Fetches from gviz API directly
+│   │   └── portfolioDataService.js  # Direct gviz fetch, 5-min cache
 │   └── App.js           # Root: PortfolioDataProvider + Analytics + SpeedInsights
+├── public/index.html    # SEO Open Graph + Twitter Card meta tags
 ├── vercel.json          # Vercel build config
 └── package.json
 ```
@@ -46,8 +48,9 @@ Build a personal portfolio website for Aniruddha Dharma to showcase work experie
 ## Tech Stack
 - **Frontend:** React, TailwindCSS, Shadcn UI
 - **Data:** Google Sheets via gviz API (no API key needed for public sheets)
+- **Caching:** 5-minute in-memory cache in portfolioDataService
 - **Deployment:** Vercel + GitHub
-- **Contact Form:** FormSubmit.co
+- **Contact Form:** FormSubmit.co (email from Google Sheet)
 - **Analytics:** @vercel/analytics + @vercel/speed-insights
 
 ## Google Sheet
@@ -55,53 +58,47 @@ Build a personal portfolio website for Aniruddha Dharma to showcase work experie
 - **Tabs:** PERSONAL_INFO, PROJECTS, EXPERIENCE, SKILLS, EDUCATION
 
 ## Key Integrations
-- **Google Sheets gviz API:** `https://docs.google.com/spreadsheets/d/{SHEET_ID}/gviz/tq?tqx=out:json&sheet={SHEET_NAME}`
-- **FormSubmit.co:** `https://formsubmit.co/aniruddharma@gmail.com`
-- **Vercel Analytics:** `<Analytics />` in App.js
-- **Vercel Speed Insights:** `<SpeedInsights />` in App.js
+- **Google Sheets gviz API:** Fetches directly in browser — no API key needed
+- **FormSubmit.co:** Uses Email from PERSONAL_INFO sheet tab
+- **Vercel Analytics + Speed Insights:** Active in App.js
+- **SEO:** Open Graph + Twitter Card in public/index.html
 
 ---
 
 ## What's Been Implemented (as of March 2026)
 
-### ✅ Complete
-- Full portfolio UI with all sections
-- Google Sheets integration (direct gviz fetch from browser, no API key)
-- Google Drive image URL conversion to thumbnail format
-- Projects section dynamically loads from Google Sheets
-- Hero section dynamically loads from Google Sheets (name, bio, photo, resume URL)
-- Experience, Skills, Education: hardcoded with rich formatted data
-- Download Resume button (reads Resume_PDF_URL from sheet, toast if empty)
-- Contact form with FormSubmit.co (needs one-time activation)
+### ✅ Complete & Dynamic from Google Sheet
+- Hero section: Name, Title, Bio, Photo, Email, Phone, LinkedIn, Resume URL
+- About section: Bio text from sheet; highlight cards static
+- Projects section: Full project cards with screenshots, audio, categories from sheet
+- Experience section: All achievements, metrics, roles from sheet
+- Skills section: All categories and skills dynamically from sheet
+- Contact section: Email, Phone, LinkedIn from sheet
+- Footer: Dynamic contact info, name, title; social share bar
+- Resume Download: Handles Google Drive URLs, uses anchor element (no popup blocker)
+- Google Drive image URLs: Auto-converted to thumbnail format
+- SEO meta tags: Open Graph + Twitter Card in index.html
+- Social share bar: LinkedIn, X/Twitter, Copy Link — at bottom of page
 - Vercel Analytics + Speed Insights integrated
-- vercel.json with proper build config
-- Image lightbox with keyboard navigation
-- Audio playback in project modals
-- Horizontal scrollable screenshots in project cards
-- data-testid attributes on all key interactive elements
+- 5-minute data caching with manual refresh button
 
-### 🔵 User Actions Required
-1. Add `Resume_PDF_URL` to Google Sheet PERSONAL_INFO tab
-2. Push code to GitHub (`git push origin main`)
-3. Redeploy on Vercel
-4. Activate FormSubmit.co by clicking confirmation email after first form submission
+### 🔵 User Actions Still Needed
+1. Redeploy on Vercel (latest commit already on GitHub)
+2. Make sure each Google Drive image file is set to "Anyone with link can view"
 
 ---
 
 ## Backlog / Future Tasks
 
 ### P1 (High Priority)
+- Make Education section pull from Google Sheet (currently accepts data prop but component is mostly static)
 - Video player support for YouTube/Vimeo links in project modals
-- Mobile responsive testing (Header mobile menu)
 
 ### P2 (Medium Priority)
-- Make Experience section pull from Google Sheet (currently hardcoded)
-- Make Skills section pull from Google Sheet
-- Add loading skeleton for initial page load
-- SEO meta tags (Open Graph for social sharing)
+- About section highlight cards (stats like "10+ Years Experience") — make dynamic from sheet
+- Mobile responsive testing (Header mobile menu)
 
 ### P3 (Low Priority / Nice to Have)
 - Dark mode toggle
-- Print-friendly version
-- Visitor counter / analytics dashboard
-- PDF export of portfolio
+- Print-friendly PDF export of portfolio
+- Visitor counter display
