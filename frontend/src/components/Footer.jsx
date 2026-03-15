@@ -1,5 +1,5 @@
 import React from 'react';
-import { Linkedin, Mail, Phone, RefreshCw, Share2, Twitter } from 'lucide-react';
+import { Linkedin, Mail, Phone, RefreshCw, Share2, MessageCircle } from 'lucide-react';
 import { usePortfolioData } from '../context/PortfolioDataContext';
 import { Button } from './ui/button';
 
@@ -22,7 +22,7 @@ const Footer = () => {
     const encodedText = encodeURIComponent(shareText);
     const urls = {
       linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-      twitter: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`
+      whatsapp: `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + pageUrl)}`
     };
     const a = document.createElement('a');
     a.href = urls[platform];
@@ -65,14 +65,14 @@ const Footer = () => {
                 Share on LinkedIn
               </Button>
               <Button
-                onClick={() => handleShare('twitter')}
+                onClick={() => handleShare('whatsapp')}
                 variant="outline"
                 size="sm"
-                className="border-slate-500 text-slate-300 hover:bg-slate-700 hover:text-white"
-                data-testid="share-twitter-btn"
+                className="border-green-500 text-green-400 hover:bg-green-900 hover:text-green-300"
+                data-testid="share-whatsapp-btn"
               >
-                <Twitter size={16} className="mr-2" />
-                Share on X
+                <MessageCircle size={16} className="mr-2" />
+                Share on WhatsApp
               </Button>
               <Button
                 id="copy-link-btn"

@@ -184,12 +184,44 @@
             })(document, window.posthog || []);
             posthog.init("phc_xAvL2Iq4tFmANRE7kzbKwaSqp1HJjN7x48s3vr0CMjs", {
                 api_host: "https://us.i.posthog.com",
-                person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well,
+                person_profiles: "identified_only",
                 session_recording: {
                     recordCrossOriginIframes: true,
                     capturePerformance: false,
                 },
             });
+        </script>
+        <script>
+            // Compact the Emergent badge to icon-only (removes text, keeps the icon)
+            (function () {
+                function compact() {
+                    var badge = document.getElementById('emergent-badge');
+                    if (!badge) return false;
+                    badge.style.setProperty('width', '36px', 'important');
+                    badge.style.setProperty('min-width', '36px', 'important');
+                    badge.style.setProperty('height', '36px', 'important');
+                    badge.style.setProperty('padding', '6px', 'important');
+                    badge.style.setProperty('border-radius', '50%', 'important');
+                    badge.style.setProperty('gap', '0', 'important');
+                    badge.style.setProperty('overflow', 'hidden', 'important');
+                    badge.title = 'Made with Emergent';
+                    badge.childNodes.forEach(function (node) {
+                        if (node.nodeType === Node.TEXT_NODE) {
+                            node.textContent = '';
+                        } else if (node.nodeType === Node.ELEMENT_NODE) {
+                            var t = node.tagName.toLowerCase();
+                            if (t !== 'svg' && t !== 'img') {
+                                node.style.setProperty('display', 'none', 'important');
+                            }
+                        }
+                    });
+                    return true;
+                }
+                var attempts = 0;
+                var timer = setInterval(function () {
+                    if (compact() || ++attempts >= 30) clearInterval(timer);
+                }, 300);
+            })();
         </script>
     </body>
 </html>

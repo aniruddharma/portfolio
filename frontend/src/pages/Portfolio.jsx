@@ -12,12 +12,20 @@ import Education from '../components/Education';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 
-// Scroll-to-top button — appears after scrolling 400px, works on mobile + desktop
+// Scroll-to-top button — shows after 400px, hides ONLY when back near top (<80px)
+// Hysteresis prevents the "disappears 0.5s after scrolling" flicker
 const ScrollToTop = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 400);
+    const onScroll = () => {
+      if (window.scrollY > 400) {
+        setVisible(true);
+      } else if (window.scrollY < 80) {
+        setVisible(false);
+      }
+      // Between 80–400px: keep current state — no flicker
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
